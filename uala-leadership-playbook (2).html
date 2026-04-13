@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ualá Leadership Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue: #162DCE;
+    --pink: #FF5C98;
+    --lime: #C0FE8A;
+    --black: #0A0A0A;
+    --white: #FFFFFF;
+    --gray: #F4F4F6;
+    --text: #1A1A2E;
+    --muted: #6B7280;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 64px;
+  }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.05rem; color: var(--blue); letter-spacing: -0.03em; }
+  .nav-tabs { display: flex; gap: 0.25rem; }
+  .tab-btn {
+    background: none; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.82rem;
+    padding: 0.45rem 1rem; border-radius: 100px; color: var(--muted); transition: all 0.2s;
+  }
+  .tab-btn:hover { background: var(--gray); color: var(--text); }
+  .tab-btn.active { background: var(--blue); color: white; }
+
+  /* PAGES */
+  .page { display: none; animation: fadeIn 0.35s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* HERO */
+  .hero {
+    background: var(--black); color: white;
+    padding: 6rem 2rem 5rem; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 15% 55%, rgba(22,45,206,0.4) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 20%, rgba(192,254,138,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 65% 85%, rgba(255,92,152,0.18) 0%, transparent 50%);
+  }
+  .hero > * { position: relative; z-index: 1; }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(22,45,206,0.25); border: 1px solid rgba(22,45,206,0.45);
+    color: #8FA3F7; font-weight: 700; font-size: 0.68rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif; font-weight: 900;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    letter-spacing: -0.04em; line-height: 1; margin-bottom: 1rem;
+  }
+  .hero h1 span { color: var(--lime); }
+  .hero-subtitle { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: rgba(255,255,255,0.45); margin-bottom: 0.85rem; }
+  .hero-desc { font-size: 1.05rem; color: rgba(255,255,255,0.6); max-width: 580px; margin: 0 auto 2.5rem; line-height: 1.75; }
+
+  /* PILLARS (photo style) */
+  .pillars-outer { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+  .pillars-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 1.75rem; }
+  .pillars-photo-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: rgba(0,0,0,0.07); border-radius: 1.5rem; overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.07);
+  }
+  @media (max-width: 780px) { .pillars-photo-grid { grid-template-columns: 1fr; } }
+  .pillar-photo-card { background: white; padding: 2.25rem 2rem 2.5rem; display: flex; flex-direction: column; transition: background 0.2s; }
+  .pillar-photo-card:hover { background: #FAFBFF; }
+  .pillar-photo-top { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.5rem; }
+  .pillar-chip { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); }
+  .pillar-bar { height: 6px; width: 44px; border-radius: 100px; flex-shrink: 0; }
+  .pillar-bar.blue { background: var(--blue); }
+  .pillar-bar.pink { background: var(--pink); }
+  .pillar-bar.lime { background: var(--lime); }
+  .pillar-photo-card h3 { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.45rem; letter-spacing: -0.035em; line-height: 1.15; margin-bottom: 1rem; }
+  .pillar-photo-card p { font-size: 0.86rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.75rem; }
+  .skills-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 0.75rem; }
+  .skills-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .skill-row { display: flex; align-items: center; gap: 0.75rem; background: var(--gray); border-radius: 0.65rem; padding: 0.65rem 0.9rem; }
+  .skill-icon { width: 28px; height: 28px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem; background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .skill-name { font-size: 0.84rem; font-weight: 700; }
+
+  /* SECTION GENERIC */
+  .section-title { font-family: 'Syne', sans-serif; font-weight: 900; font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: -0.04em; margin-bottom: 0.5rem; }
+  .section-sub { color: var(--muted); font-size: 1rem; margin-bottom: 2.5rem; max-width: 560px; line-height: 1.65; }
+
+  /* LEVEL BAR */
+  .level-bar-wrap { background: white; border-bottom: 1px solid rgba(0,0,0,0.06); padding: 0 2rem; position: sticky; top: 64px; z-index: 90; }
+  .level-bar { max-width: 1100px; margin: 0 auto; display: flex; overflow-x: auto; }
+  .level-bar::-webkit-scrollbar { display: none; }
+  .lvl-btn {
+    background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; gap: 0.85rem;
+    padding: 1.1rem 1.5rem; text-align: left;
+    border-bottom: 2px solid transparent; transition: all 0.2s;
+    white-space: nowrap; flex-shrink: 0; position: relative;
+  }
+  .lvl-btn + .lvl-btn::before { content: '›'; position: absolute; left: 0; top: 50%; transform: translateY(-50%); color: rgba(0,0,0,0.18); font-size: 1.1rem; pointer-events: none; }
+  .lvl-btn:hover { background: var(--gray); }
+  .lvl-btn.active { border-bottom-color: var(--blue); }
+  .lvl-btn-icon { width: 36px; height: 36px; border-radius: 0.65rem; background: var(--gray); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; transition: background 0.2s; }
+  .lvl-btn.active .lvl-btn-icon { background: var(--blue); }
+  .lvl-btn-name { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); display: block; }
+  .lvl-btn.active .lvl-btn-name { color: var(--blue); }
+  .lvl-btn-sub { font-size: 0.8rem; font-weight: 700; color: var(--blue); display: block; line-height: 1.2; margin-top: 0.1rem; }
+  .lvl-btn.active .lvl-btn-sub { color: var(--text); }
+  .lvl-btn-detail { font-size: 0.72rem; color: var(--muted); display: block; margin-top: 0.05rem; }
+
+  /* LEVEL PANELS */
+  .level-panel { display: none; }
+  .level-panel.active { display: block; animation: fadeIn 0.3s ease; }
+  .lp-wrap { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+  .lp-header { background: var(--blue); color: white; border-radius: 1.5rem; padding: 2.25rem 2.5rem; margin-bottom: 2rem; }
+  .lp-header-top { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+  .lp-code { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; background: rgba(255,255,255,0.15); padding: 0.2rem 0.65rem; border-radius: 100px; }
+  .lp-header h2 { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 2rem; letter-spacing: -0.04em; margin-bottom: 0.5rem; }
+  .lp-header p { font-size: 0.9rem; opacity: 0.72; line-height: 1.65; max-width: 640px; }
+  .lp-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+  @media (max-width: 600px) { .lp-meta { grid-template-columns: 1fr; } }
+  .meta-card { background: var(--gray); border-radius: 1rem; padding: 1.25rem 1.5rem; }
+  .meta-card h4 { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 0.5rem; }
+  .meta-card p { font-size: 0.88rem; line-height: 1.6; }
+  .meta-focus-list { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .meta-focus-list li { font-size: 0.86rem; padding-left: 1rem; position: relative; }
+  .meta-focus-list li::before { content: '·'; position: absolute; left: 0.2rem; color: var(--blue); font-size: 1.2rem; line-height: 1; }
+
+  .pillar-block { margin-bottom: 1.75rem; }
+  .pillar-block-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1.5px solid rgba(0,0,0,0.06); }
+  .pillar-block-bar { height: 4px; width: 32px; border-radius: 100px; flex-shrink: 0; }
+  .pillar-block-header h3 { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 0.95rem; letter-spacing: 0.03em; text-transform: uppercase; }
+  .beh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
+  .beh-card { background: white; border: 1.5px solid rgba(0,0,0,0.07); border-radius: 1rem; padding: 1.1rem 1.25rem; }
+  .beh-card h5 { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--blue); margin-bottom: 0.4rem; }
+  .beh-card p { font-size: 0.84rem; color: var(--muted); line-height: 1.55; }
+
+  .habits-title { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); margin-bottom: 1rem; margin-top: 2rem; }
+  .habits-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  @media (max-width: 650px) { .habits-row { grid-template-columns: 1fr; } }
+  .habit-col { background: var(--gray); border-radius: 1rem; padding: 1.25rem 1.35rem; }
+  .habit-col h4 { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.75rem; }
+  .hblue h4 { color: var(--blue); }
+  .hpink h4 { color: var(--pink); }
+  .hlime h4 { color: #3D7A00; }
+  .habit-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .habit-col li { font-size: 0.83rem; line-height: 1.4; padding-left: 1.1rem; position: relative; }
+  .hblue li::before { content: '→'; position: absolute; left: 0; color: var(--blue); font-size: 0.7rem; top: 0.1em; }
+  .hpink li::before { content: '→'; position: absolute; left: 0; color: var(--pink); font-size: 0.7rem; top: 0.1em; }
+  .hlime li::before { content: '→'; position: absolute; left: 0; color: #5AA010; font-size: 0.7rem; top: 0.1em; }
+
+  /* HABITS PAGE */
+  .habits-page { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; }
+  .habits-section { margin-bottom: 3.5rem; }
+  .habits-section-header { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.25rem; padding-bottom: 0.85rem; border-bottom: 2px solid var(--gray); }
+  .hsh-bar { height: 5px; width: 32px; border-radius: 100px; flex-shrink: 0; }
+  .habits-section-header h2 { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.25rem; letter-spacing: -0.02em; }
+  .habits-table { width: 100%; border-collapse: collapse; }
+  .habits-table th { text-align: left; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--gray); white-space: nowrap; }
+  .habits-table td { padding: 0.7rem 0.75rem; font-size: 0.84rem; line-height: 1.45; border-bottom: 1px solid rgba(0,0,0,0.04); vertical-align: top; }
+  .habits-table tr:last-child td { border-bottom: none; }
+  .habits-table tr:hover td { background: var(--gray); }
+  .level-badge { display: inline-block; font-size: 0.65rem; font-weight: 700; padding: 0.18rem 0.6rem; border-radius: 100px; background: var(--blue); color: white; white-space: nowrap; }
+
+  /* ─── DIAGNOSTIC PAGE ─── */
+  .diag-wrap { max-width: 760px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
+
+  /* intro */
+  .diag-intro { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.75rem; }
+  .diag-intro-icon {
+    width: 72px; height: 72px; border-radius: 1.5rem;
+    background: rgba(22,45,206,0.1); display: flex; align-items: center;
+    justify-content: center; font-size: 2rem;
+  }
+  .diag-intro h1 { font-family: 'Syne', sans-serif; font-weight: 900; font-size: clamp(2.2rem, 5vw, 3.5rem); letter-spacing: -0.04em; line-height: 1; }
+  .diag-intro p { font-size: 1.05rem; color: var(--muted); max-width: 480px; line-height: 1.7; }
+  .diag-cta {
+    background: var(--black); color: white;
+    border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1rem;
+    padding: 1rem 2.5rem; border-radius: 100px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .diag-cta:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(0,0,0,0.18); }
+  .diag-cta:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* progress bar */
+  .diag-progress-bar { width: 100%; height: 4px; background: var(--gray); border-radius: 100px; margin-bottom: 2.5rem; }
+  .diag-progress-fill { height: 100%; background: var(--blue); border-radius: 100px; transition: width 0.4s ease; }
+  .diag-progress-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0.5rem; }
+  .diag-progress-header h2 { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.6rem; letter-spacing: -0.03em; }
+  .diag-pct { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.4rem; color: var(--blue); }
+  .diag-pct-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); text-align: right; display: block; }
+
+  /* pillar block in questions */
+  .diag-pillar { margin-bottom: 2.5rem; }
+  .diag-pillar-name {
+    font-family: 'Syne', sans-serif; font-weight: 900; font-size: 0.82rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .diag-pillar-name::before { content: ''; display: block; width: 28px; height: 4px; border-radius: 100px; background: currentColor; flex-shrink: 0; }
+
+  .diag-question { margin-bottom: 1.5rem; }
+  .diag-q-text { font-weight: 700; font-size: 0.97rem; margin-bottom: 0.3rem; color: var(--text); }
+  .diag-q-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.85rem; }
+  .diag-scale { display: flex; gap: 0.5rem; align-items: center; }
+  .diag-scale-label { font-size: 0.7rem; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  .diag-scale-btns { display: flex; gap: 0.4rem; }
+  .diag-scale-btn {
+    width: 44px; height: 44px; border-radius: 0.65rem;
+    border: 2px solid rgba(0,0,0,0.08);
+    background: white; font-weight: 900; font-size: 0.9rem;
+    cursor: pointer; transition: all 0.15s; color: var(--muted);
+  }
+  .diag-scale-btn:hover { border-color: var(--blue); color: var(--blue); }
+  .diag-scale-btn.selected { background: var(--blue); border-color: var(--blue); color: white; }
+
+  .diag-submit-row { margin-top: 2.5rem; }
+
+  /* results */
+  .diag-results-title { font-family: 'Syne', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -0.04em; text-align: center; margin-bottom: 2.5rem; }
+  .diag-result-card {
+    border-radius: 2rem; border: 1.5px solid rgba(0,0,0,0.07);
+    overflow: hidden; margin-bottom: 1.25rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .diag-card-top {
+    padding: 1.75rem 2rem; display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1.5px solid rgba(0,0,0,0.05);
+  }
+  .diag-card-top.strength { background: #f0fdf4; }
+  .diag-card-top.consolidate { background: #fffbeb; }
+  .diag-card-top.develop { background: #fff1f2; }
+  .diag-card-pillar-name { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 0.3rem; }
+  .diag-card-label { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.4rem; letter-spacing: -0.02em; }
+  .strength .diag-card-label { color: #16a34a; }
+  .consolidate .diag-card-label { color: #d97706; }
+  .develop .diag-card-label { color: #e11d48; }
+  .diag-card-score { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 2.5rem; letter-spacing: -0.04em; }
+  .strength .diag-card-score { color: #16a34a; }
+  .consolidate .diag-card-score { color: #d97706; }
+  .develop .diag-card-score { color: #e11d48; }
+  .diag-card-body { padding: 1.75rem 2rem; background: white; }
+  .diag-card-body p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.25rem; }
+  .diag-actions { background: var(--gray); border-radius: 1rem; padding: 1.25rem 1.5rem; }
+  .diag-actions h5 { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 0.75rem; }
+  .diag-actions ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+  .diag-actions li { font-size: 0.84rem; font-weight: 600; color: var(--text); padding-left: 1rem; position: relative; }
+  .diag-actions li::before { content: '→'; position: absolute; left: 0; color: var(--blue); font-size: 0.7rem; top: 0.1em; }
+
+  .diag-restart { display: block; width: 100%; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--blue); text-align: center; margin-top: 1.5rem; padding: 0.5rem; }
+  .diag-restart:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Ualá Leadership</div>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="showPage('model',this)">Modelo</button>
+    <button class="tab-btn" onclick="showPage('skills',this)">Skills Map</button>
+    <button class="tab-btn" onclick="showPage('habits',this)">Hábitos</button>
+    <button class="tab-btn" onclick="showPage('diagnostic',this)">Diagnóstico</button>
+  </div>
+</nav>
+
+<!-- ══ PAGE: MODELO ══ -->
+<div id="page-model" class="page active">
+  <div class="hero">
+    <h1>Leadership<br><span>Playbook</span></h1>
+    <div class="hero-subtitle">Ualá Leadership Model</div>
+    <p class="hero-desc">Qué significa ser un líder en Ualá. Nuestro modelo se estructura en tres pilares que guían cómo los líderes desarrollamos personas, creamos entornos sólidos e impulsamos resultados.</p>
+  </div>
+
+  <div class="pillars-outer">
+    <div class="pillars-label">Nuestros pilares</div>
+    <div class="pillars-photo-grid">
+
+      <div class="pillar-photo-card">
+        <div class="pillar-photo-top">
+          <div class="pillar-bar blue"></div>
+          <span class="pillar-chip">Pilar</span>
+        </div>
+        <h3>Construimos equipos</h3>
+        <p>Identificamos, desarrollamos y potenciamos talento para construir equipos de alto desempeño. Generamos claridad sobre expectativas, resultados y desarrollo, asegurándonos de que cada persona comprenda qué se espera de su rol y cómo puede fortalecer sus capacidades para generar mayor impacto.</p>
+        <div class="skills-label">Skills</div>
+        <div class="skills-list">
+          <div class="skill-row"><div class="skill-icon">👥</div><span class="skill-name">Talent Development</span></div>
+          <div class="skill-row"><div class="skill-icon">💬</div><span class="skill-name">Feedback &amp; Conversations</span></div>
+          <div class="skill-row"><div class="skill-icon">✅</div><span class="skill-name">Talent Decisions</span></div>
+        </div>
+      </div>
+
+      <div class="pillar-photo-card">
+        <div class="pillar-photo-top">
+          <div class="pillar-bar pink"></div>
+          <span class="pillar-chip">Pilar</span>
+        </div>
+        <h3>Creamos un ambiente inspirador</h3>
+        <p>Construimos entornos donde las personas se expresan con honestidad, comparten ideas y colaboran. Promovemos conversaciones abiertas, feedback directo y reconocemos el impacto del equipo. Actuamos como referentes culturales, reflejando los valores de Ualá en cómo trabajamos y tomamos decisiones.</p>
+        <div class="skills-label">Skills</div>
+        <div class="skills-list">
+          <div class="skill-row"><div class="skill-icon">🛡️</div><span class="skill-name">Trust &amp; Psychological Safety</span></div>
+          <div class="skill-row"><div class="skill-icon">🤍</div><span class="skill-name">Recognition &amp; Motivation</span></div>
+          <div class="skill-row"><div class="skill-icon">⭐</div><span class="skill-name">Role Modeling Culture</span></div>
+        </div>
+      </div>
+
+      <div class="pillar-photo-card">
+        <div class="pillar-photo-top">
+          <div class="pillar-bar lime"></div>
+          <span class="pillar-chip">Pilar</span>
+        </div>
+        <h3>Impulsamos resultados</h3>
+        <p>Definimos prioridades claras alineadas con los objetivos del negocio. Tomamos decisiones basadas en información y contexto, desafiamos el status quo y asumimos responsabilidad por los resultados. Buscamos ejecución efectiva, mejora continua e impacto sostenible para Ualá.</p>
+        <div class="skills-label">Skills</div>
+        <div class="skills-list">
+          <div class="skill-row"><div class="skill-icon">📈</div><span class="skill-name">Strategic Prioritization</span></div>
+          <div class="skill-row"><div class="skill-icon">💡</div><span class="skill-name">Innovation &amp; Challenge</span></div>
+          <div class="skill-row"><div class="skill-icon">🎯</div><span class="skill-name">Accountability</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: SKILLS MAP ══ -->
+<div id="page-skills" class="page">
+
+  <div style="padding: 3rem 2rem 0; max-width:1100px; margin:0 auto;">
+    <p class="section-title">Leadership Skills Map</p>
+    <p class="section-sub">Explorá las competencias, comportamientos y hábitos esperados en cada nivel de liderazgo en Ualá.</p>
+  </div>
+
+  <div class="level-bar-wrap">
+    <div class="level-bar">
+      <button class="lvl-btn active" onclick="showLevel('coordinator',this)">
+        <div class="lvl-btn-icon">⚡</div>
+        <div><span class="lvl-btn-name">Coordinator</span><span class="lvl-btn-sub">Execution excellence</span><span class="lvl-btn-detail">manages execution</span></div>
+      </button>
+      <button class="lvl-btn" onclick="showLevel('leader',this)">
+        <div class="lvl-btn-icon">👥</div>
+        <div><span class="lvl-btn-name">Leader</span><span class="lvl-btn-sub">Team performance</span><span class="lvl-btn-detail">manages team</span></div>
+      </button>
+      <button class="lvl-btn" onclick="showLevel('manager',this)">
+        <div class="lvl-btn-icon">🗂️</div>
+        <div><span class="lvl-btn-name">Manager</span><span class="lvl-btn-sub">Organizational capability</span><span class="lvl-btn-detail">manages managers</span></div>
+      </button>
+      <button class="lvl-btn" onclick="showLevel('sr_manager',this)">
+        <div class="lvl-btn-icon">🎯</div>
+        <div><span class="lvl-btn-name">SR Manager</span><span class="lvl-btn-sub">Strategic leadership</span><span class="lvl-btn-detail">leads strategy</span></div>
+      </button>
+      <button class="lvl-btn" onclick="showLevel('head',this)">
+        <div class="lvl-btn-icon">🌐</div>
+        <div><span class="lvl-btn-name">Head</span><span class="lvl-btn-sub">Business leadership</span><span class="lvl-btn-detail">shapes organization</span></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- COORDINATOR -->
+  <div id="level-coordinator" class="level-panel active">
+    <div class="lp-wrap">
+      <div class="lp-header">
+        <div class="lp-header-top"><span class="lp-code">M1-10</span></div>
+        <h2>Coordinator</h2>
+        <p>Primer nivel de liderazgo en Ualá. Organizamos el trabajo del equipo en el corto plazo, aseguramos la correcta ejecución operativa y acompañamos el desempeño diario de las personas.</p>
+      </div>
+      <div class="lp-meta">
+        <div class="meta-card"><h4>Impacto</h4><p>Nos reflejamos en la eficiencia operativa del equipo, la claridad en la asignación de tareas y la ejecución consistente del trabajo diario de acuerdo con los estándares definidos.</p></div>
+        <div class="meta-card"><h4>Áreas de foco</h4><ul class="meta-focus-list"><li>Organizamos el trabajo del equipo</li><li>Acompañamos de cerca el desempeño</li><li>Mejoramos continuamente la ejecución operativa</li></ul></div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:var(--blue)"></div><h3 style="color:var(--blue)">Construimos equipos</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Talent Development</h5><p>Identificamos las fortalezas y oportunidades de mejora de cada persona del equipo. Acompañamos el aprendizaje en el día a día, brindamos guía concreta para mejorar el desempeño y apoyamos el desarrollo de habilidades necesarias para el rol.</p></div>
+          <div class="beh-card"><h5>Feedback &amp; Conversations</h5><p>Generamos conversaciones frecuentes sobre desempeño, expectativas y mejoras. Damos feedback claro, específico y cercano al momento en que ocurren las situaciones.</p></div>
+          <div class="beh-card"><h5>Talent Decisions</h5><p>Participamos en decisiones de talento aportando información sobre el desempeño del equipo y escalando situaciones que requieren intervención.</p></div>
+        </div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:var(--pink)"></div><h3 style="color:var(--pink)">Creamos un ambiente inspirador</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Trust &amp; Psychological Safety</h5><p>Promovemos un ambiente de respeto y colaboración donde las personas pueden hacer preguntas, compartir ideas y expresar dificultades.</p></div>
+          <div class="beh-card"><h5>Recognition &amp; Motivation</h5><p>Reconocemos el esfuerzo y los logros del equipo en el día a día, reforzando comportamientos positivos.</p></div>
+          <div class="beh-card"><h5>Role Modeling Culture</h5><p>Actuamos de acuerdo con los valores y comportamientos culturales de Ualá en nuestra forma de trabajar y relacionarnos con el equipo.</p></div>
+        </div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:#5AA010"></div><h3 style="color:#3D7A00">Impulsamos resultados</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Strategic Prioritization</h5><p>Aseguramos que el equipo tenga claridad sobre las prioridades del día a día y organizamos el trabajo para cumplir los objetivos definidos.</p></div>
+          <div class="beh-card"><h5>Innovation &amp; Challenge</h5><p>Identificamos oportunidades de mejora en procesos o dinámicas del equipo y proponemos ajustes simples para mejorar la ejecución.</p></div>
+          <div class="beh-card"><h5>Accountability</h5><p>Hacemos seguimiento del trabajo del equipo y nos aseguramos de que las tareas se completen con calidad y en tiempo.</p></div>
+        </div>
+      </div>
+      <div class="habits-title">Leadership Habits</div>
+      <div class="habits-row">
+        <div class="habit-col hblue"><h4>Construimos equipos</h4><ul><li>Tenemos 1:1 periódicos con cada persona del equipo</li><li>Damos feedback frecuente sobre el trabajo</li><li>Acompañamos el aprendizaje en el día a día</li></ul></div>
+        <div class="habit-col hpink"><h4>Creamos un ambiente inspirador</h4><ul><li>Escuchamos activamente al equipo</li><li>Fomentamos la colaboración</li><li>Reconocemos contribuciones y avances</li></ul></div>
+        <div class="habit-col hlime"><h4>Impulsamos resultados</h4><ul><li>Clarificamos prioridades del día a día</li><li>Hacemos seguimiento del trabajo del equipo</li><li>Removemos obstáculos operativos</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADER -->
+  <div id="level-leader" class="level-panel">
+    <div class="lp-wrap">
+      <div class="lp-header">
+        <div class="lp-header-top"><span class="lp-code">M1-11</span></div>
+        <h2>Leader</h2>
+        <p>Ejecutamos los objetivos del área a través de la gestión directa del equipo. Definimos prioridades, organizamos el trabajo y gestionamos activamente el desempeño de las personas para asegurar resultados consistentes.</p>
+      </div>
+      <div class="lp-meta">
+        <div class="meta-card"><h4>Impacto</h4><p>Nos reflejamos en la entrega consistente de resultados del equipo, la gestión efectiva del desempeño y la alineación del trabajo diario con los objetivos del área.</p></div>
+        <div class="meta-card"><h4>Áreas de foco</h4><ul class="meta-focus-list"><li>Gestionamos el desempeño del equipo</li><li>Ejecutamos resultados consistentes</li><li>Coordinamos efectivamente con stakeholders</li></ul></div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:var(--blue)"></div><h3 style="color:var(--blue)">Construimos equipos</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Talent Development</h5><p>Acompañamos el desarrollo de las personas del equipo identificando oportunidades de crecimiento y asignando desafíos que potencien sus capacidades.</p></div>
+          <div class="beh-card"><h5>Feedback &amp; Conversations</h5><p>Mantenemos conversaciones regulares sobre desempeño, desarrollo y expectativas, generando claridad sobre lo que se espera del rol y cómo mejorar.</p></div>
+          <div class="beh-card"><h5>Talent Decisions</h5><p>Contribuimos activamente a decisiones de talento dentro del equipo, identificando alto desempeño y abordando brechas de forma oportuna.</p></div>
+        </div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:var(--pink)"></div><h3 style="color:var(--pink)">Creamos un ambiente inspirador</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Trust &amp; Psychological Safety</h5><p>Generamos un ambiente donde las personas pueden expresar ideas, preocupaciones o desacuerdos con respeto.</p></div>
+          <div class="beh-card"><h5>Recognition &amp; Motivation</h5><p>Reconocemos el impacto del equipo y reforzamos comportamientos alineados con la cultura de Ualá.</p></div>
+          <div class="beh-card"><h5>Role Modeling Culture</h5><p>Reforzamos los principios culturales de Ualá a través de nuestra forma de liderar y tomar decisiones.</p></div>
+        </div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:#5AA010"></div><h3 style="color:#3D7A00">Impulsamos resultados</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Strategic Prioritization</h5><p>Traducimos los objetivos del área en prioridades claras para el equipo.</p></div>
+          <div class="beh-card"><h5>Innovation &amp; Challenge</h5><p>Cuestionamos procesos existentes y promovemos mejoras que permitan aumentar la eficiencia del equipo.</p></div>
+          <div class="beh-card"><h5>Accountability</h5><p>Asumimos responsabilidad por los resultados del equipo y realizamos seguimiento activo de los avances.</p></div>
+        </div>
+      </div>
+      <div class="habits-title">Leadership Habits</div>
+      <div class="habits-row">
+        <div class="habit-col hblue"><h4>Construimos equipos</h4><ul><li>Tenemos conversaciones de desarrollo con el equipo</li><li>Damos feedback claro y frecuente</li><li>Asignamos desafíos que desarrollen habilidades</li></ul></div>
+        <div class="habit-col hpink"><h4>Creamos un ambiente inspirador</h4><ul><li>Reconocemos contribuciones del equipo</li><li>Generamos espacios de conversación abierta</li><li>Promovemos colaboración</li></ul></div>
+        <div class="habit-col hlime"><h4>Impulsamos resultados</h4><ul><li>Traducimos objetivos en prioridades claras</li><li>Hacemos seguimiento de avances</li><li>Resolvemos obstáculos del equipo</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANAGER -->
+  <div id="level-manager" class="level-panel">
+    <div class="lp-wrap">
+      <div class="lp-header">
+        <div class="lp-header-top"><span class="lp-code">M2-12 / M2-13</span></div>
+        <h2>Manager</h2>
+        <p>Lideramos equipos más grandes o de mayor complejidad. Aseguramos resultados sostenibles para el área, conectamos la ejecución del equipo con los objetivos del negocio y desarrollamos capacidades dentro del equipo.</p>
+      </div>
+      <div class="lp-meta">
+        <div class="meta-card"><h4>Impacto</h4><p>Nos reflejamos en la consistencia de resultados del área, la eficiencia operativa y el desarrollo de talento dentro del equipo.</p></div>
+        <div class="meta-card"><h4>Áreas de foco</h4><ul class="meta-focus-list"><li>Desarrollamos talento</li><li>Aseguramos resultados sostenibles del área</li><li>Conectamos estrategia y ejecución</li></ul></div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:var(--blue)"></div><h3 style="color:var(--blue)">Construimos equipos</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Talent Development</h5><p>Desarrollamos talento dentro del área, identificamos potencial y promovemos el crecimiento de futuros líderes.</p></div>
+          <div class="beh-card"><h5>Feedback &amp; Conversations</h5><p>Establecemos conversaciones de desarrollo estructuradas que impulsan el crecimiento de las personas y fortalecen las capacidades del equipo.</p></div>
+          <div class="beh-card"><h5>Talent Decisions</h5><p>Tomamos decisiones de talento considerando desempeño, potencial y necesidades del negocio.</p></div>
+        </div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:var(--pink)"></div><h3 style="color:var(--pink)">Creamos un ambiente inspirador</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Trust &amp; Psychological Safety</h5><p>Promovemos un ambiente de confianza donde las personas pueden expresar ideas, cuestionar decisiones y aprender de los errores.</p></div>
+          <div class="beh-card"><h5>Recognition &amp; Motivation</h5><p>Reconocemos el impacto del equipo y celebramos logros relevantes que contribuyen a los objetivos del área.</p></div>
+          <div class="beh-card"><h5>Role Modeling Culture</h5><p>Reforzamos activamente los principios culturales de Ualá en nuestra área.</p></div>
+        </div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:#5AA010"></div><h3 style="color:#3D7A00">Impulsamos resultados</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Strategic Prioritization</h5><p>Definimos prioridades del área alineadas con los objetivos del negocio.</p></div>
+          <div class="beh-card"><h5>Innovation &amp; Challenge</h5><p>Impulsamos mejoras en procesos, estructuras o dinámicas de trabajo que aumentan la eficiencia y el impacto del equipo.</p></div>
+          <div class="beh-card"><h5>Accountability</h5><p>Asumimos responsabilidad por los resultados del área y aseguramos la ejecución efectiva de los planes.</p></div>
+        </div>
+      </div>
+      <div class="habits-title">Leadership Habits</div>
+      <div class="habits-row">
+        <div class="habit-col hblue"><h4>Construimos equipos</h4><ul><li>Identificamos y desarrollamos talento</li><li>Creamos oportunidades de desarrollo</li><li>Damos feedback estructurado</li></ul></div>
+        <div class="habit-col hpink"><h4>Creamos un ambiente inspirador</h4><ul><li>Construimos confianza en el equipo</li><li>Reconocemos logros relevantes</li><li>Promovemos colaboración</li></ul></div>
+        <div class="habit-col hlime"><h4>Impulsamos resultados</h4><ul><li>Definimos prioridades estratégicas</li><li>Alineamos al equipo con objetivos del negocio</li><li>Tomamos decisiones basadas en datos</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SR MANAGER -->
+  <div id="level-sr_manager" class="level-panel">
+    <div class="lp-wrap">
+      <div class="lp-header">
+        <div class="lp-header-top"><span class="lp-code">M3-14</span></div>
+        <h2>SR Manager</h2>
+        <p>Lideramos múltiples equipos o funciones con una mirada estratégica y sistémica. Definimos la dirección del área, desarrollamos liderazgo en cascada y aseguramos que las iniciativas de nuestra vertical generen impacto sostenible en el negocio.</p>
+      </div>
+      <div class="lp-meta">
+        <div class="meta-card"><h4>Impacto</h4><p>Nos reflejamos en el escalamiento de resultados, el desarrollo de líderes y la capacidad de conectar la estrategia del área con la dirección general de la compañía.</p></div>
+        <div class="meta-card"><h4>Áreas de foco</h4><ul class="meta-focus-list"><li>Desarrollamos liderazgo</li><li>Generamos impacto organizacional</li><li>Definimos la estrategia del área</li></ul></div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:var(--blue)"></div><h3 style="color:var(--blue)">Construimos equipos</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Talent Development</h5><p>Desarrollamos líderes dentro de nuestra organización y construimos equipos de alto desempeño.</p></div>
+          <div class="beh-card"><h5>Feedback &amp; Conversations</h5><p>Promovemos conversaciones de desarrollo entre líderes para fortalecer las capacidades organizacionales.</p></div>
+          <div class="beh-card"><h5>Talent Decisions</h5><p>Tomamos decisiones estratégicas de talento considerando el futuro de la organización.</p></div>
+        </div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:var(--pink)"></div><h3 style="color:var(--pink)">Creamos un ambiente inspirador</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Trust &amp; Psychological Safety</h5><p>Construimos entornos donde los equipos pueden colaborar, cuestionar ideas y aprender.</p></div>
+          <div class="beh-card"><h5>Recognition &amp; Motivation</h5><p>Reconocemos contribuciones que generan impacto significativo en el negocio.</p></div>
+          <div class="beh-card"><h5>Role Modeling Culture</h5><p>Reforzamos la cultura de Ualá a escala organizacional.</p></div>
+        </div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:#5AA010"></div><h3 style="color:#3D7A00">Impulsamos resultados</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Strategic Prioritization</h5><p>Definimos prioridades estratégicas para nuestra vertical alineadas con los objetivos del negocio.</p></div>
+          <div class="beh-card"><h5>Innovation &amp; Challenge</h5><p>Impulsamos iniciativas de mejora y transformación organizacional.</p></div>
+          <div class="beh-card"><h5>Accountability</h5><p>Asumimos responsabilidad por los resultados de múltiples equipos.</p></div>
+        </div>
+      </div>
+      <div class="habits-title">Leadership Habits</div>
+      <div class="habits-row">
+        <div class="habit-col hblue"><h4>Construimos equipos</h4><ul><li>Desarrollamos líderes</li><li>Construimos equipos de alto desempeño</li><li>Tomamos decisiones estratégicas de talento</li></ul></div>
+        <div class="habit-col hpink"><h4>Creamos un ambiente inspirador</h4><ul><li>Reforzamos cultura organizacional</li><li>Promovemos colaboración transversal</li><li>Reconocemos impacto organizacional</li></ul></div>
+        <div class="habit-col hlime"><h4>Impulsamos resultados</h4><ul><li>Definimos prioridades estratégicas</li><li>Impulsamos mejoras organizacionales</li><li>Tomamos decisiones complejas</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEAD -->
+  <div id="level-head" class="level-panel">
+    <div class="lp-wrap">
+      <div class="lp-header">
+        <div class="lp-header-top"><span class="lp-code">M3-15</span></div>
+        <h2>Head</h2>
+        <p>Lideramos un departamento con una visión estratégica de largo plazo. Definimos la dirección del área, diseñamos estructuras organizacionales efectivas y aseguramos que las decisiones estratégicas generen impacto sostenible en el negocio.</p>
+      </div>
+      <div class="lp-meta">
+        <div class="meta-card"><h4>Impacto</h4><p>Nos reflejamos en la dirección estratégica del área, el desarrollo de liderazgo organizacional y el crecimiento sostenible del negocio.</p></div>
+        <div class="meta-card"><h4>Áreas de foco</h4><ul class="meta-focus-list"><li>Definimos la estrategia y el diseño organizacional</li><li>Tomamos decisiones ejecutivas de alto impacto</li><li>Representamos institucionalmente el área</li></ul></div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:var(--blue)"></div><h3 style="color:var(--blue)">Construimos equipos</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Talent Development</h5><p>Definimos la estrategia de talento del área y construimos una organización preparada para los desafíos futuros.</p></div>
+          <div class="beh-card"><h5>Feedback &amp; Conversations</h5><p>Promovemos conversaciones de desarrollo que fortalecen el liderazgo en toda la organización.</p></div>
+          <div class="beh-card"><h5>Talent Decisions</h5><p>Tomamos decisiones críticas de talento alineadas con la estrategia del negocio.</p></div>
+        </div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:var(--pink)"></div><h3 style="color:var(--pink)">Creamos un ambiente inspirador</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Trust &amp; Psychological Safety</h5><p>Construimos una cultura organizacional basada en confianza, colaboración y aprendizaje.</p></div>
+          <div class="beh-card"><h5>Recognition &amp; Motivation</h5><p>Reconocemos contribuciones estratégicas que impactan el negocio.</p></div>
+          <div class="beh-card"><h5>Role Modeling Culture</h5><p>Somos referentes culturales dentro de la organización.</p></div>
+        </div>
+      </div>
+      <div class="pillar-block">
+        <div class="pillar-block-header"><div class="pillar-block-bar" style="background:#5AA010"></div><h3 style="color:#3D7A00">Impulsamos resultados</h3></div>
+        <div class="beh-grid">
+          <div class="beh-card"><h5>Strategic Prioritization</h5><p>Definimos prioridades estratégicas del área alineadas con la dirección de la compañía.</p></div>
+          <div class="beh-card"><h5>Innovation &amp; Challenge</h5><p>Impulsamos innovación y transformación organizacional.</p></div>
+          <div class="beh-card"><h5>Accountability</h5><p>Asumimos responsabilidad por los resultados del área y su impacto en el negocio.</p></div>
+        </div>
+      </div>
+      <div class="habits-title">Leadership Habits</div>
+      <div class="habits-row">
+        <div class="habit-col hblue"><h4>Construimos equipos</h4><ul><li>Diseñamos la estrategia de talento del área</li><li>Desarrollamos líderes</li><li>Construimos equipos de alto desempeño</li></ul></div>
+        <div class="habit-col hpink"><h4>Creamos un ambiente inspirador</h4><ul><li>Reforzamos cultura organizacional</li><li>Promovemos colaboración entre áreas</li><li>Reconocemos impacto estratégico</li></ul></div>
+        <div class="habit-col hlime"><h4>Impulsamos resultados</h4><ul><li>Definimos la dirección estratégica</li><li>Tomamos decisiones organizacionales</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-skills -->
+
+<!-- ══ PAGE: HÁBITOS ══ -->
+<div id="page-habits" class="page">
+  <div class="habits-page">
+    <p class="section-title">Hábitos por Pilar</p>
+    <p class="section-sub" style="margin-bottom:2.5rem;">Los comportamientos concretos que cada líder practica según su nivel.</p>
+
+    <div class="habits-section">
+      <div class="habits-section-header"><div class="hsh-bar" style="background:var(--blue)"></div><h2>Construimos equipos</h2></div>
+      <table class="habits-table">
+        <thead><tr><th>Nivel</th><th>Hábito 1</th><th>Hábito 2</th><th>Hábito 3</th></tr></thead>
+        <tbody>
+          <tr><td><span class="level-badge">Coordinator</span></td><td>Tenemos 1:1 periódicos con cada persona del equipo</td><td>Damos feedback frecuente sobre el trabajo</td><td>Acompañamos el aprendizaje en el día a día</td></tr>
+          <tr><td><span class="level-badge">Leader</span></td><td>Tenemos conversaciones de desarrollo con el equipo</td><td>Damos feedback claro y frecuente</td><td>Asignamos desafíos que desarrollen habilidades</td></tr>
+          <tr><td><span class="level-badge">Manager</span></td><td>Identificamos y desarrollamos talento</td><td>Creamos oportunidades de desarrollo</td><td>Damos feedback estructurado</td></tr>
+          <tr><td><span class="level-badge">SR Manager</span></td><td>Desarrollamos líderes</td><td>Construimos equipos de alto desempeño</td><td>Tomamos decisiones estratégicas de talento</td></tr>
+          <tr><td><span class="level-badge">Head</span></td><td>Diseñamos la estrategia de talento del área</td><td>Desarrollamos líderes</td><td>Construimos equipos de alto desempeño</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="habits-section">
+      <div class="habits-section-header"><div class="hsh-bar" style="background:var(--pink)"></div><h2>Creamos un ambiente inspirador</h2></div>
+      <table class="habits-table">
+        <thead><tr><th>Nivel</th><th>Hábito 1</th><th>Hábito 2</th><th>Hábito 3</th></tr></thead>
+        <tbody>
+          <tr><td><span class="level-badge">Coordinator</span></td><td>Escuchamos activamente al equipo</td><td>Fomentamos la colaboración</td><td>Reconocemos contribuciones y avances</td></tr>
+          <tr><td><span class="level-badge">Leader</span></td><td>Reconocemos contribuciones del equipo</td><td>Generamos espacios de conversación abierta</td><td>Promovemos colaboración</td></tr>
+          <tr><td><span class="level-badge">Manager</span></td><td>Construimos confianza en el equipo</td><td>Reconocemos logros relevantes</td><td>Promovemos colaboración</td></tr>
+          <tr><td><span class="level-badge">SR Manager</span></td><td>Reforzamos cultura organizacional</td><td>Promovemos colaboración transversal</td><td>Reconocemos impacto organizacional</td></tr>
+          <tr><td><span class="level-badge">Head</span></td><td>Reforzamos cultura organizacional</td><td>Promovemos colaboración entre áreas</td><td>Reconocemos impacto estratégico</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="habits-section">
+      <div class="habits-section-header"><div class="hsh-bar" style="background:#5AA010"></div><h2>Impulsamos resultados</h2></div>
+      <table class="habits-table">
+        <thead><tr><th>Nivel</th><th>Hábito 1</th><th>Hábito 2</th><th>Hábito 3</th></tr></thead>
+        <tbody>
+          <tr><td><span class="level-badge">Coordinator</span></td><td>Clarificamos prioridades del día a día</td><td>Hacemos seguimiento del trabajo del equipo</td><td>Removemos obstáculos operativos</td></tr>
+          <tr><td><span class="level-badge">Leader</span></td><td>Traducimos objetivos en prioridades claras</td><td>Hacemos seguimiento de avances</td><td>Resolvemos obstáculos del equipo</td></tr>
+          <tr><td><span class="level-badge">Manager</span></td><td>Definimos prioridades estratégicas</td><td>Alineamos al equipo con objetivos del negocio</td><td>Tomamos decisiones basadas en datos</td></tr>
+          <tr><td><span class="level-badge">SR Manager</span></td><td>Definimos prioridades estratégicas</td><td>Impulsamos mejoras organizacionales</td><td>Tomamos decisiones complejas</td></tr>
+          <tr><td><span class="level-badge">Head</span></td><td>Definimos la dirección estratégica</td><td>Tomamos decisiones organizacionales</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ══ PAGE: DIAGNOSTIC ══ -->
+<div id="page-diagnostic" class="page">
+  <div class="diag-wrap" id="diag-container">
+    <!-- rendered by JS below -->
+  </div>
+</div>
+
+<script>
+  // ── NAV ──
+  function showPage(name, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo(0, 0);
+    if (name === 'diagnostic') renderDiag();
+  }
+  function showLevel(id, btn) {
+    document.querySelectorAll('.level-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.lvl-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('level-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── DIAGNOSTIC DATA ──
+  const PILLARS = [
+    {
+      id: 'build_teams',
+      name: 'PILAR 1 — Construimos equipos',
+      questions: [
+        { id: 1, text: 'Tengo conversaciones frecuentes de desarrollo con mi equipo.', sub: 'Más allá de las tareas del día a día.' },
+        { id: 2, text: 'Doy feedback claro y oportuno sobre el desempeño.', sub: 'Observaciones concretas y accionables.' },
+        { id: 3, text: 'Reconozco contribuciones positivas de mi equipo.', sub: 'Valoro el esfuerzo y los logros consistentemente.' },
+        { id: 4, text: 'Identifico oportunidades de crecimiento para las personas.', sub: 'Detecto fortalezas y asigno desafíos.' },
+        { id: 5, text: 'Tomo decisiones de talento ante brechas de desempeño.', sub: 'Abordo situaciones de bajo desempeño con responsabilidad.' }
+      ],
+      feedbackText: {
+        strength:    'Domino este pilar. Soy referente en desarrollo de personas, doy feedback de calidad y tomo decisiones de talento con responsabilidad.',
+        consolidate: 'Tengo buenas prácticas pero necesito más consistencia. Hay oportunidades para estructurar mejor mis conversaciones de desarrollo.',
+        develop:     'Este es un área prioritaria para mí. Necesito sistematizar el feedback, los 1:1s y las decisiones de talento para generar mayor impacto en mi equipo.'
+      },
+      actions: {
+        strength:    ['Compartí tus prácticas de feedback con otros líderes del equipo.', 'Creá un plan de carrera formal para cada persona de tu equipo.', 'Identificá tu próximo potencial de liderazgo y desafialo.'],
+        consolidate: ['Agendá 1:1s quincenales con cada persona y usá siempre la misma estructura.', 'Practicá el modelo SBI (Situación-Comportamiento-Impacto) para dar feedback.', 'Revisá el desempeño de tu equipo mensualmente con tu manager.'],
+        develop:     ['Comenzá con 1:1s semanales de 30 minutos con cada persona.', 'Definí expectativas claras del rol por escrito para cada miembro de tu equipo.', 'Leé "The Manager\'s Path" o pedile mentoring a un líder senior.']
+      }
+    },
+    {
+      id: 'create_environment',
+      name: 'PILAR 2 — Creamos un ambiente inspirador',
+      questions: [
+        { id: 6,  text: 'Genero un ambiente de seguridad psicológica.', sub: 'Donde todos pueden expresar ideas o preocupaciones.' },
+        { id: 7,  text: 'Escucho activamente a mi equipo antes de decidir.', sub: 'Busco comprender perspectivas antes de actuar.' },
+        { id: 8,  text: 'Reconozco el esfuerzo y los logros de mi equipo.', sub: 'Celebro avances y resultados relevantes.' },
+        { id: 9,  text: 'Promuevo la colaboración entre las personas.', sub: 'Fomento el trabajo conjunto e intercambio de ideas.' },
+        { id: 10, text: 'Refuerzo activamente la cultura de Ualá.', sub: 'Actúo de acuerdo a nuestros principios culturales.' }
+      ],
+      feedbackText: {
+        strength:    'Creo un entorno donde las personas se sienten seguras, valoradas y motivadas. La cultura Ualá se vive en mi forma de liderar.',
+        consolidate: 'Tengo buenos momentos de reconocimiento y colaboración, pero puedo mejorar la consistencia. Hay situaciones donde la seguridad psicológica aún no es total.',
+        develop:     'El ambiente de mi equipo necesita atención. Las personas pueden no sentirse completamente seguras para expresarse, y necesito reforzar activamente la cultura.'
+      },
+      actions: {
+        strength:    ['Facilitá una retrospectiva de equipo para co-crear normas de trabajo.', 'Reconocé públicamente a tu equipo en el próximo all-hands.', 'Actuá como sponsor de la cultura Ualá en tu área.'],
+        consolidate: ['Implementá un ritual semanal de reconocimiento (shoutouts en reuniones).', 'Cuando alguien traiga un error, respondé con curiosidad en lugar de crítica.', 'Hacé preguntas abiertas en las reuniones para fomentar participación.'],
+        develop:     ['Iniciá cada reunión de equipo preguntando cómo está cada persona.', 'Creá normas explícitas de trabajo en equipo junto con tu equipo.', 'Eliminá comportamientos que inhiban que las personas hablen con libertad.']
+      }
+    },
+    {
+      id: 'drive_results',
+      name: 'PILAR 3 — Impulsamos resultados',
+      questions: [
+        { id: 11, text: 'Clarifico las prioridades de mi equipo.', sub: 'Me aseguro de que el equipo sepa qué es lo más importante.' },
+        { id: 12, text: 'Alineo el trabajo con los objetivos del negocio.', sub: 'Conecto el día a día con el impacto estratégico.' },
+        { id: 13, text: 'Hago seguimiento activo del avance de objetivos.', sub: 'Monitoreo el progreso y ajusto cuando es necesario.' },
+        { id: 14, text: 'Identifico oportunidades de mejora en procesos.', sub: 'Cuestiono prácticas para ganar eficiencia.' },
+        { id: 15, text: 'Asumo responsabilidad por los resultados finales.', sub: 'Me hago cargo de la ejecución y resuelvo obstáculos.' }
+      ],
+      feedbackText: {
+        strength:    'Impulso resultados con claridad y accountability. Mi equipo tiene foco, alineación estratégica y una cultura de ejecución sólida.',
+        consolidate: 'Tengo alineación en objetivos pero mi ejecución puede ser más consistente. El seguimiento de avances y la mejora continua son mis áreas de oportunidad.',
+        develop:     'Este pilar requiere mi atención inmediata. Necesito clarificar prioridades, establecer rituales de seguimiento y asumir ownership de los resultados.'
+      },
+      actions: {
+        strength:    ['Compartí el impacto de tu equipo en el negocio en el próximo all-hands.', 'Desafiá a tu equipo con un objetivo stretch para el próximo trimestre.', 'Documentá los procesos que mejor funcionan para escalarlos.'],
+        consolidate: ['Implementá una reunión semanal de 30 min para revisar el estado de tus OKRs.', 'Usá un tablero visual (Notion, Jira, etc.) para que tu equipo vea el progreso.', 'Al final de cada proyecto, hacé un brief de lecciones aprendidas.'],
+        develop:     ['Definí 3 prioridades máximas para tu equipo esta semana y comunicálas.', 'Establecé un ritual de check-in semanal de 15 min para revisar avances.', 'Identificá el principal obstáculo de tu equipo hoy y removélo esta semana.']
+      }
+    }
+  ];
+
+  // ── DIAGNOSTIC STATE ──
+  let diagStep = 'intro'; // 'intro' | 'questions' | 'results'
+  let diagAnswers = {};
+
+  function diagAvg(pillarId) {
+    const p = PILLARS.find(x => x.id === pillarId);
+    const scores = p.questions.map(q => diagAnswers[q.id] || 0);
+    return scores.reduce((a, b) => a + b, 0) / p.questions.length;
+  }
+
+  function diagFeedback(score) {
+    if (score >= 4.0) return { key: 'strength',    label: 'Fortaleza',          cls: 'strength' };
+    if (score >= 3.0) return { key: 'consolidate', label: 'Área a consolidar',  cls: 'consolidate' };
+    return               { key: 'develop',      label: 'Área de desarrollo', cls: 'develop' };
+  }
+
+  function diagProgress() {
+    return Math.round((Object.keys(diagAnswers).length / 15) * 100);
+  }
+
+  function isComplete() {
+    return Object.keys(diagAnswers).length === 15;
+  }
+
+  function renderDiag() {
+    const c = document.getElementById('diag-container');
+    if (diagStep === 'intro') {
+      c.innerHTML = `
+        <div class="diag-intro">
+          <div class="diag-intro-icon">📋</div>
+          <h1>Leadership<br>Diagnostic</h1>
+          <p>Reflexioná sobre tu estilo de liderazgo basado en el Modelo Ualá. Identificá tus fortalezas y recibí un plan de acción concreto.</p>
+          <button class="diag-cta" onclick="diagStart()">Comenzar diagnóstico</button>
+        </div>`;
+    } else if (diagStep === 'questions') {
+      const pct = diagProgress();
+      let html = `
+        <div class="diag-progress-header">
+          <h2>Autoevaluación</h2>
+          <div>
+            <span class="diag-pct-label">Progreso</span>
+            <div class="diag-pct">${pct}%</div>
+          </div>
+        </div>
+        <div class="diag-progress-bar"><div class="diag-progress-fill" style="width:${pct}%"></div></div>`;
+
+      PILLARS.forEach(p => {
+        html += `<div class="diag-pillar"><div class="diag-pillar-name">${p.name}</div>`;
+        p.questions.forEach(q => {
+          html += `
+            <div class="diag-question">
+              <div class="diag-q-text">${q.text}</div>
+              <div class="diag-q-sub">${q.sub}</div>
+              <div class="diag-scale">
+                <span class="diag-scale-label">Nunca</span>
+                <div class="diag-scale-btns">
+                  ${[1,2,3,4,5].map(v => `<button class="diag-scale-btn ${diagAnswers[q.id]===v?'selected':''}" onclick="diagAnswer(${q.id},${v})">${v}</button>`).join('')}
+                </div>
+                <span class="diag-scale-label">Siempre</span>
+              </div>
+            </div>`;
+        });
+        html += `</div>`;
+      });
+
+      const done = isComplete();
+      html += `<div class="diag-submit-row"><button class="diag-cta" style="width:100%; padding:1.25rem;" ${done?'':'disabled'} onclick="diagShowResults()">${done ? 'Ver resultados →' : 'Completá todas las preguntas para continuar'}</button></div>`;
+      c.innerHTML = html;
+    } else if (diagStep === 'results') {
+      let html = `<h2 class="diag-results-title">Tu Perfil de Liderazgo</h2>`;
+      PILLARS.forEach(p => {
+        const avg = diagAvg(p.id);
+        const fb = diagFeedback(avg);
+        const text = p.feedbackText[fb.key];
+        const acts = p.actions[fb.key];
+        html += `
+          <div class="diag-result-card">
+            <div class="diag-card-top ${fb.cls}">
+              <div>
+                <div class="diag-card-pillar-name">${p.name}</div>
+                <div class="diag-card-label">${fb.label}</div>
+              </div>
+              <div class="diag-card-score">${avg.toFixed(1)}</div>
+            </div>
+            <div class="diag-card-body">
+              <p>${text}</p>
+              <div class="diag-actions">
+                <h5>Acciones sugeridas</h5>
+                <ul>${acts.map(a => `<li>${a}</li>`).join('')}</ul>
+              </div>
+            </div>
+          </div>`;
+      });
+      html += `<button class="diag-restart" onclick="diagRestart()">Reiniciar diagnóstico</button>`;
+      c.innerHTML = html;
+    }
+  }
+
+  function diagStart() { diagStep = 'questions'; renderDiag(); }
+  function diagAnswer(id, val) {
+    diagAnswers[id] = val;
+    renderDiag();
+    // don't scroll to top on answer
+  }
+  function diagShowResults() { if (isComplete()) { diagStep = 'results'; renderDiag(); window.scrollTo(0,0); } }
+  function diagRestart() { diagStep = 'intro'; diagAnswers = {}; renderDiag(); window.scrollTo(0,0); }
+</script>
+</body>
+</html>
